@@ -1,104 +1,45 @@
 # 📄 Sistema de Gerenciamento de Manifestações
 
-Este projeto contém um conjunto de funções em Python para gerenciamento
-básico de manifestações registradas em um banco de dados. As operações
-incluem listar, registrar, pesquisar, remover e contar registros.\
-O código utiliza funções auxiliares importadas do módulo `operacoesbd`,
-que encapsulam operações de acesso ao banco de dados.
+Este projeto implementa um conjunto de funções em Python para gerenciar manifestações registradas em um banco de dados. As funcionalidades incluem cadastrar, listar, pesquisar, remover e contar manifestações, com suporte a diferentes tipos: **Reclamação**, **Elogio** e **Sugestão**.
 
-## 📌 Pré-requisitos
+As funções utilizam comandos SQL e dependem de funções de acesso ao banco de dados fornecidas por um módulo externo, como:
 
-Para que este código funcione corretamente, é necessário:
+- listarBancoDados(conexao, consulta, valores=None)
+- insertNoBancoDados(conexao, consulta, valores)
+- excluirBancoDados(conexao, consulta, valores)
 
--   Um banco de dados contendo a tabela **Manifestacoes** com as
-    colunas:
-    -   `codigo` -- Identificador único da manifestação
-        (auto-incremento).
-    -   `manifestacao` -- Texto da manifestação registrada.
--   O módulo `operacoesbd` implementado com funções como:
-    -   `listarBancoDados(conexao, consulta, valores=None)`
-    -   `insertNoBancoDados(conexao, consulta, valores)`
-    -   `excluirBancoDados(conexao, consulta, valores)`
--   Um objeto **conexao** conectado ao banco de dados.
+## 📌 Requisitos
 
-## 📚 Funções Disponíveis
+Para utilizar o sistema, é necessário:
 
-### 🔎 listarManifestacoes(conexao)
+- Banco de dados contendo a tabela Manifestacoes, com colunas como:
+  - codigo
+  - descricao
+  - autor
+  - tipo
+- Conexão ativa com o banco (objeto conexao)
+- Implementação das funções de banco no módulo externo
 
-Lista todas as manifestações registradas.
+## 📚 Descrição das Funções
 
--   Executa: `SELECT * FROM Manifestacoes;`
--   Exibe mensagem se não houver registros.
--   Caso existam, imprime cada manifestação numerada.
+### 🔢 quantidadeManifestacao(conexao)
+Exibe o total de manifestações cadastradas no banco.
 
-### 📝 registrarManifestacoes(conexao)
+### ❌ removerManifestacao(conexao)
+Remove uma manifestação a partir do seu código.
 
-Cadastra uma nova manifestação informada pelo usuário.
+### 🔍 pesquisarManifestacoesCodigo(conexao)
+Pesquisa uma manifestação específica pelo código.
 
--   Solicita o texto da manifestação.
+### 🔎 pesquisarManifestacoesTipo(conexao)
+Pesquisa manifestações filtrando por tipo (Reclamação, Elogio ou Sugestão).
 
--   Insere no banco com:
+### 📝 adicionarManifestacao(conexao)
+Adiciona uma nova manifestação ao banco.
 
-    ``` sql
-    INSERT INTO Manifestacoes (manifestacao) VALUES (%s);
-    ```
+### 📋 listarManifestacoes(conexao)
+Lista todas as manifestações cadastradas.
 
--   Exibe o código gerado para a nova manifestação.
-
-### 🔍 pesquisarManifestacoes(conexao)
-
-Pesquisa uma manifestação pelo seu **código**.
-
--   Solicita o código ao usuário.
-
--   Executa:
-
-    ``` sql
-    SELECT * FROM Manifestacoes WHERE codigo = %s;
-    ```
-
--   Caso encontrada, mostra o texto correspondente.
-
-### ❌ removerManifestacoes(conexao)
-
-Remove uma manifestação com base no código informado.
-
--   Solicita o código ao usuário.
-
--   Executa:
-
-    ``` sql
-    DELETE FROM Manifestacoes WHERE codigo = %s;
-    ```
-
--   Caso nenhum registro seja removido, informa que o código não existe.
-
--   Caso contrário, confirma a exclusão.
-
-### 🔢 quantidadeManifestacoes(conexao)
-
-Mostra o número total de manifestações cadastradas.
-
--   Executa:
-
-    ``` sql
-    SELECT COUNT(*) FROM Manifestacoes;
-    ```
-
--   Exibe o total encontrado.
-
-## ▶️ Exemplo de Uso
-
-Essas funções podem ser chamadas dentro de um sistema com menu, como:
-
--   Listar → `listarManifestacoes(conexao)`
--   Cadastrar → `registrarManifestacoes(conexao)`
--   Pesquisar → `pesquisarManifestacoes(conexao)`
--   Remover → `removerManifestacoes(conexao)`
--   Contar → `quantidadeManifestacoes(conexao)`
-
-## 🧩 Observações
-
--   O código não faz tratamento de exceções.
--   Recomenda-se adicionar validações e captura de erros para uso em
-    produção.
+## 🧩 Observações Importantes
+- O sistema depende de funções externas para acesso ao banco.
+- É recomendável adicionar validação e tratamento de erros.
