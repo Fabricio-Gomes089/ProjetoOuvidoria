@@ -1,25 +1,21 @@
-#Grupo:
-#Samuel Herbert Félix Rodrigues 
-#Fabricio Gomes Candido Filho
-#Iago Yehudi Rabi Pereira Da Silva
-#João Matheus Eleotério Soares
 
 from ouvidoria import *
 from operacoesbd import *
 
-conexao = criarConexao(endereco = 'localhost', usuario ='root', senha ='@Dragonballz123', bancodedados='projeto_ouvidoria')
+conexao = criarConexao('127.0.0.1','root','@Dragonballz123','projeto_ouvidoria')
 
 opcao = -1
 manifestacoes = []
 
-while opcao != 6:
+while opcao != 7:
     print('\n   MENU DE MANIFESTAÇÕES')
     print('1) Listar Manifestações')
     print('2) Registrar Manifestação')
-    print('3) Procurar Manifestação')
-    print('4) Remover Manifestação')
-    print('5) Quantidade de Manifestações')
-    print('6) Sair')
+    print('3) Procurar Manifestação pelo tipo')
+    print('4) Procurar Manifestação pelo código')
+    print('5) Remover Manifestação')
+    print('6) Quantidade de Manifestações')
+    print('7) Sair')
 
     opcao = int(input('Digite sua opção: '))
 
@@ -27,20 +23,23 @@ while opcao != 6:
         listarManifestacoes(conexao)
 
     elif opcao == 2:
-        registrarManifestacoes(conexao)
+        adicionarManifestacao(conexao)
 
     elif opcao == 3:
-        pesquisarManifestacoes(conexao)
+        pesquisarManifestacoesTipo(conexao)
 
     elif opcao == 4:
-        removerManifestacoes(conexao)
+        pesquisarManifestacoesCodigo(conexao)
 
     elif opcao == 5:
-        quantidadeManifestacoes(conexao)
+        removerManifestacao(conexao)
 
-    elif opcao != 6:
+    elif opcao == 6:
+        quantidadeManifestacao(conexao)
+
+    elif opcao != 7:
         print('Opção inválida!')
 
-encerrarConexao(conexao)
+print('Obrigado por usar o App da Ouvidoria!')
 
-print('Obrigado por usar o app!')
+encerrarConexao(conexao)
